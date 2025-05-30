@@ -1,0 +1,28 @@
+{
+    "monorepo": true,
+    "root": "apps/property-management-api",
+    "sourceRoot": "apps/property-management-api/src",
+    "compilerOptions": {
+        "tsConfigPath": "apps/property-management-api/tsconfig.app.json"
+    },
+    "projects": {
+        "property-management-api": {
+            "type": "application",
+            "root": "apps/property-management-api",
+            "entryFile": "main",
+            "sourceRoot": "apps/property-management-api/src",
+            "compilerOptions": {
+                "tsConfigPath": "apps/property-management-api/tsconfig.app.json"
+            }
+        },
+        "analysis-api": {
+            "type": "application",
+            "root": "apps/analysis-api",
+            "entryFile": "main",
+            "sourceRoot": "apps/analysis-api/src",
+            "compilerOptions": {
+                "tsConfigPath": "apps/analysis-api/tsconfig.app.json"
+            }
+        }
+    }
+}

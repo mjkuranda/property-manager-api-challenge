@@ -1,0 +1,8 @@
+.idea
+dist
+node_modules
+logs
+coverage
+
+apps/property-management-api/.env
+apps/analysis-api/.env

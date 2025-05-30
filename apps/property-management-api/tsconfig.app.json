@@ -1,0 +1,10 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "declaration": false,
+        "rootDir": "./src",
+        "outDir": "../../dist/apps/property-management-api"
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist", "test", "**/*test.ts"]
+}

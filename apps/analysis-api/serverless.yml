@@ -1,0 +1,27 @@
+service: analysis-api
+
+frameworkVersion: '3'
+
+provider:
+    name: aws
+    runtime: nodejs18.x
+    region: us-east-1
+
+functions:
+    analyze:
+        handler: src/handler.analyzeHandler
+        events:
+            - httpApi:
+                path: /analyze
+                method: post
+
+package:
+  individually: true
+
+plugins:
+  - serverless-webpack
+
+custom:
+    webpack:
+        webpackConfig: ./webpack.config.js
+        includeModules: true

@@ -1,0 +1,10 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "declaration": false,
+        "rootDir": "./src",
+        "outDir": "../../dist/apps/analysis-api"
+    },
+    "include": ["src/**/*.ts", "src/**/*.test.ts"],
+    "exclude": ["node_modules", "dist", "test", "**/*test.ts"]
+}
