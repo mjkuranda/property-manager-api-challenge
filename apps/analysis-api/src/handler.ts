@@ -1,7 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { AnalysisService } from './services/analysis.service';
-import { RequestError, ValidationError, ServerError } from './errors';
 import { ValidationService } from './services/validation.service';
+import { createSuccessResponse, handleError } from './utils';
+import { AnalysisResponse } from './types';
 
 const analysisService = new AnalysisService();
 const validationService = new ValidationService();
@@ -21,24 +22,8 @@ export const analyze = async (
         const validatedData = await validationService.validate(event.body);
         const analysis = analysisService.analyze(validatedData);
 
-        return {
-            statusCode: 200,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                data: analysis
-            })
-        };
-    } catch (error) {
-        console.error('Error processing request:', error);
-
-        if (error instanceof ValidationError ||
-            error instanceof RequestError ||
-            error instanceof ServerError) {
-            return error.toResponse();
-        }
-
-        return ServerError.fromError(error).toResponse();
+        return createSuccessResponse<AnalysisResponse>(analysis);
+    } catch (error: unknown) {
+        handleError(error);
     }
 };

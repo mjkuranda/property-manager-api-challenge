@@ -20,3 +20,16 @@ export interface ValidationErrorDetails {
     property: string;
     constraints: {[p: string]: string};
 }
+
+export interface SuccessResponse<Data extends object> {
+    isSuccess: true;
+    data: Data
+}
+
+export interface ErrorResponse {
+    isSuccess: false;
+    error: {
+        code: number;
+        message: string;
+    }
+}

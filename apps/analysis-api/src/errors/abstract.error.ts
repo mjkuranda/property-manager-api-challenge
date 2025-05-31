@@ -2,7 +2,7 @@ import { APIGatewayProxyResult } from 'aws-lambda';
 
 export abstract class AbstractError extends Error {
 
-    constructor(
+    protected constructor(
         message: string,
         private readonly code: number = 500
     ) {
