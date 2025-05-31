@@ -6,3 +6,4 @@ coverage
 
 apps/property-management-api/.env
 apps/analysis-api/.serverless
+apps/analysis-api/.webpack
