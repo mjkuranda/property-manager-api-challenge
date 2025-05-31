@@ -9,19 +9,24 @@ provider:
 
 functions:
     analyze:
-        handler: src/handler.analyzeHandler
+        handler: src/handler.analyze
         events:
             - httpApi:
                 path: /analyze
                 method: post
+                cors: true
 
 package:
-  individually: true
+    individually: true
 
 plugins:
-  - serverless-webpack
+    - serverless-webpack
 
 custom:
     webpack:
         webpackConfig: ./webpack.config.js
         includeModules: true
+        packager: 'npm'
+    stages:
+        - dev
+        - prod
