@@ -2,7 +2,7 @@ import { BodyRequiredError, InvalidJsonError } from '../errors';
 import { AnalysisRequestDto } from '../dto/analysis-request.dto';
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { ValidationErrorDetails } from '../types';
+import { AnalysisRequest, ValidationErrorDetails } from '../types';
 import { ValidationDtoError } from '../errors/validation-dto.error';
 
 export class ValidationService {
@@ -12,7 +12,7 @@ export class ValidationService {
             throw new BodyRequiredError();
         }
 
-        let requestData;
+        let requestData: AnalysisRequest;
 
         try {
             requestData = JSON.parse(analysisRequestDto);
