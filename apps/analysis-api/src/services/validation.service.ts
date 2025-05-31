@@ -7,15 +7,15 @@ import { ValidationDtoError } from '../errors/validation-dto.error';
 
 export class ValidationService {
 
-    public async validate(analysisRequestDto: string) {
-        if (!analysisRequestDto) {
+    public async validate(message: string | null): Promise<AnalysisRequestDto> {
+        if (!message) {
             throw new BodyRequiredError();
         }
 
         let requestData: AnalysisRequest;
 
         try {
-            requestData = JSON.parse(analysisRequestDto);
+            requestData = JSON.parse(message);
         } catch (error) {
             throw new InvalidJsonError();
         }

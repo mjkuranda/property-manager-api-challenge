@@ -11,5 +11,5 @@ export class AnalysisRequestDto {
         message: 'Message cannot be longer than 1000 characters'
     })
     @Transform(({ value }) => value.trim())
-        message: string;
+        message!: string;
 }

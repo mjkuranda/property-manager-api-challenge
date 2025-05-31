@@ -3,7 +3,7 @@ import { BodyRequiredError, InvalidJsonError } from './errors';
 import { ValidationDtoError } from './errors/validation-dto.error';
 import { ErrorResponse, SuccessResponse } from './types';
 
-function createResponse<Body extends object>(code: number, body: Body): APIGatewayProxyResult {
+function createResponse<Body extends { isSuccess: boolean }>(code: number, body: Body): APIGatewayProxyResult {
     return {
         statusCode: code,
         headers: {
@@ -13,8 +13,8 @@ function createResponse<Body extends object>(code: number, body: Body): APIGatew
     };
 }
 
-export function createSuccessResponse<Body>(body: Body): APIGatewayProxyResult {
-    return createResponse<SuccessResponse<Body>>(200, body);
+export function createSuccessResponse<Body extends object>(body: Body): APIGatewayProxyResult {
+    return createResponse<SuccessResponse<Body>>(200, { data: body, isSuccess: true });
 }
 
 export function createErrorResponse(code: number, message: string): APIGatewayProxyResult {
@@ -30,5 +30,7 @@ export function handleError(error: unknown): APIGatewayProxyResult {
         return error.toResponse();
     }
 
-    return createErrorResponse(500, `Internal server error caused by: ${error.message}`);
+    const message = error instanceof Error ? error.message : String(error);
+
+    return createErrorResponse(500, `Internal server error caused by: ${message}`);
 }
