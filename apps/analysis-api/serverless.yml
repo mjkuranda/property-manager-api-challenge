@@ -14,19 +14,16 @@ functions:
             - httpApi:
                 path: /analyze
                 method: post
-                cors: true
 
 package:
     individually: true
 
 plugins:
-    - serverless-webpack
+    - serverless-offline
 
 custom:
-    webpack:
-        webpackConfig: ./webpack.config.js
-        includeModules: true
-        packager: 'npm'
+    serverless-offline:
+        httpPort: 4001
     stages:
         - dev
         - prod

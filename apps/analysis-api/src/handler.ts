@@ -24,6 +24,6 @@ export const analyze = async (
 
         return createSuccessResponse<AnalysisResponse>(analysis);
     } catch (error: unknown) {
-        handleError(error);
+        return handleError(error);
     }
 };
