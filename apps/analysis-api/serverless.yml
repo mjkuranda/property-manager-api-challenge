@@ -9,19 +9,27 @@ provider:
 
 functions:
     analyze:
-        handler: src/handler.analyzeHandler
+        handler: src/handler.analyze
         events:
             - httpApi:
                 path: /analyze
                 method: post
 
 package:
-  individually: true
+    individually: true
 
 plugins:
-  - serverless-webpack
+    - serverless-webpack
+    - serverless-offline
 
 custom:
     webpack:
-        webpackConfig: ./webpack.config.js
+        webpackConfig: webpack.config.js
+        packager: npm
         includeModules: true
+    serverless-offline:
+        httpPort: 4001
+        lambdaPort: 4002
+    stages:
+        - dev
+        - prod

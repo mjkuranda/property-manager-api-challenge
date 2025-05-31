@@ -3,7 +3,10 @@
     "compilerOptions": {
         "declaration": false,
         "rootDir": "./src",
-        "outDir": "../../dist/apps/analysis-api"
+        "outDir": "../../dist/apps/analysis-api",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "useDefineForClassFields": false
     },
     "include": ["src/**/*.ts", "src/**/*.test.ts"],
     "exclude": ["node_modules", "dist", "test", "**/*test.ts"]
