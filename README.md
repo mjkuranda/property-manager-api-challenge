@@ -69,10 +69,14 @@ The system consists of two main microservices:
 5. Start the services:
    ```bash
    # Start Analysis API
-   npm run start analysis-api
+   npm run start:pm-api
 
    # Start Property Management API
-   npm run start property-management-api
+   npm run start:analysis
+   ```
+   or to run the both at once:
+   ```bash
+   npm run start
    ```
 
 ## API Documentation
@@ -230,6 +234,8 @@ npm run test property-management-api
 2. **DynamoDB**: Chosen in terms of wide-usage in the company.
 
 3. **NestJS**: Provides robust architecture patterns and excellent TypeScript support.
+
+4. **Separate package.json**: Each apllication has a separate `package.json` to manage scripts, version and dependencies. Common dependencies are located in root directory.
 
 ## Future Enhancements
 
