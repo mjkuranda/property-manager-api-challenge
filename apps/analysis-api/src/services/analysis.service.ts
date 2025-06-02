@@ -1,10 +1,10 @@
-import { AnalysisRequest, AnalysisResponse, KeywordCategory } from '../types';
 import { keywordCategories } from '../config/keywords.config';
+import { AnalysisRequest, AnalysisResponse, KeywordCategory } from '../types';
 
 export class AnalysisService {
 
     public analyze(request: AnalysisRequest): AnalysisResponse {
-        const message = this.normalizeMessage(request.message);
+        const message = request.message.trim().toLowerCase();
         const { keywords, maxScore, urgencyCount } = this.detectKeywords(message, keywordCategories);
 
         const finalScore = keywords.length === 0
@@ -18,10 +18,7 @@ export class AnalysisService {
         };
     }
 
-    private normalizeMessage(message: string): string {
-        return message.trim().toLowerCase();
-    }
-
+    // TODO: Create a separate service
     private detectKeywords(
         message: string,
         categories: KeywordCategory[]
