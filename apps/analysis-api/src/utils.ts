@@ -1,6 +1,5 @@
 import { APIGatewayProxyResult } from 'aws-lambda';
-import { BodyRequiredError, InvalidJsonError } from './errors';
-import { ValidationDtoError } from './errors/validation-dto.error';
+import { BodyRequiredError, InvalidJsonError, ValidationDtoError } from './errors';
 import { ErrorResponse, SuccessResponse } from './types';
 
 function createResponse<Body extends { isSuccess: boolean }>(code: number, body: Body): APIGatewayProxyResult {

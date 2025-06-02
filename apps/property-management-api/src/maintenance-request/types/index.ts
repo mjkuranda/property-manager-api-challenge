@@ -1,34 +1,20 @@
-// Priority level enum
+export interface AnalyzedFactors {
+    keywords: string[];
+    urgencyIndicators: number;
+    priorityScore: number;
+}
+
 export enum PriorityLevel {
     HIGH = 'high',
     MEDIUM = 'medium',
     LOW = 'low'
 }
 
-// Request status enum
 export enum RequestStatus {
     PENDING = 'PENDING',
     IN_PROGRESS = 'IN_PROGRESS',
     COMPLETED = 'COMPLETED',
     CANCELLED = 'CANCELLED'
-}
-
-// Analysis service types
-export interface AnalysisRequest {
-    message: string;
-}
-
-export interface AnalysisResponse {
-    keywords: string[];
-    urgencyIndicators: number;
-    priorityScore: number;
-}
-
-// The analyzed factors structure as per technical requirements
-export interface AnalyzedFactors {
-    keywords: string[];
-    urgencyIndicators: number;
-    priorityScore: number;
 }
 
 export interface MaintenanceRequest {
@@ -45,7 +31,7 @@ export interface MaintenanceRequest {
 
 export interface CreateMaintenanceRequestResponse {
     requestId: string;
-    priority: string; // As per API spec, this should be a string
+    priority: string;
     analyzedFactors: AnalyzedFactors;
 }
 

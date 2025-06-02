@@ -1,6 +1,6 @@
 export interface AppConfig {
     port: number;
-    analysisApi?: {
+    analysisApi: {
         url: string;
     };
     aws: {
@@ -21,7 +21,7 @@ export function loadConfig(): AppConfig {
     return {
         port: Number(process.env.PORT) || 4000,
         analysisApi: {
-            url: process.env.ANALYSIS_API_URL || 'http://localhost:4001/'
+            url: process.env.ANALYSIS_API_URL || 'http://localhost:4001'
         },
         aws: {
             accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'local',
@@ -31,8 +31,8 @@ export function loadConfig(): AppConfig {
         dynamodbEndpoint: process.env.DYNAMODB_ENDPOINT || 'http://localhost:8000',
         maintenance:{
             priorityThreshold :{
-                high: process.env.MAINTENANCE_HIGH_PRIORITY_THRESHOLD || 0.8,
-                medium: process.env.MAINTENANCE_MEDIUM_PRIORITY_THRESHOLD || 0.5
+                high: parseFloat(process.env.MAINTENANCE_HIGH_PRIORITY_THRESHOLD || '0.8'),
+                medium: parseFloat(process.env.MAINTENANCE_MEDIUM_PRIORITY_THRESHOLD || '0.5')
             }
         }
     };

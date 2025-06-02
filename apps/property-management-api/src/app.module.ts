@@ -8,7 +8,7 @@ import { MaintenanceRequestModule } from './maintenance-request/maintenance-requ
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
-            load: [loadConfig],
+            load: [loadConfig]
         }),
         HttpModule,
         MaintenanceRequestModule,

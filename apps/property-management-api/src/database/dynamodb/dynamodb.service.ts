@@ -9,8 +9,9 @@ export class DynamodbService {
     private readonly dynamodb: DynamoDB.DocumentClient;
 
     constructor(private readonly configService: ConfigService<AppConfig>) {
-        const awsConfig = this.configService.get<AppConfig['aws']>('aws');
-        const { region, dynamodbEndpoint: endpoint, accessKeyId, secretAccessKey } = awsConfig;
+        const awsConfig = this.configService.get<AppConfig['aws']>('aws') as AppConfig['aws'];
+        const endpoint = this.configService.get('dynamodbEndpoint') as string;
+        const { region, accessKeyId, secretAccessKey } = awsConfig;
 
         this.dynamodb = new DynamoDB.DocumentClient({
             region,

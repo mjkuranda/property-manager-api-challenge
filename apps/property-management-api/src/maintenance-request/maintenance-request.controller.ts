@@ -1,11 +1,7 @@
 import { Controller, Post, Get, Body, Query, ValidationPipe, ParseEnumPipe } from '@nestjs/common';
 import { MaintenanceRequestService } from './services/maintenance-request.service';
 import { CreateMaintenanceRequestDto } from './dtos/create-maintenance-request.dto';
-import {
-    CreateMaintenanceRequestResponse,
-    GetMaintenanceRequestsResponse,
-    PriorityLevel
-} from './maintenance-request.types';
+import { CreateMaintenanceRequestResponse, GetMaintenanceRequestsResponse, PriorityLevel } from './types';
 
 @Controller('requests')
 export class MaintenanceRequestController {

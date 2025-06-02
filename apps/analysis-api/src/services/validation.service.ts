@@ -1,9 +1,8 @@
-import { BodyRequiredError, InvalidJsonError } from '../errors';
+import { BodyRequiredError, InvalidJsonError, ValidationDtoError } from '../errors';
 import { AnalysisRequestDto } from '../dto/analysis-request.dto';
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { AnalysisRequest, ValidationErrorDetails } from '../types';
-import { ValidationDtoError } from '../errors/validation-dto.error';
 
 export class ValidationService {
 

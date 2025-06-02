@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AnalysisResponse, PriorityLevel } from '../../../../shared/types/maintenance.types';
+import { PriorityLevel } from '../types';
+import { AnalysisResponse } from '../../analysis-api/types';
 
 @Injectable()
 export class MaintenanceRequestPriorityService {
@@ -11,8 +12,8 @@ export class MaintenanceRequestPriorityService {
         private readonly configService: ConfigService
     ) {
         this.priorityThresholds = {
-            high: this.configService.get<number>('maintenance.priorityThreshold.high'),
-            medium: this.configService.get<number>('maintenance.priorityThreshold.medium')
+            high: this.configService.get<number>('maintenance.priorityThreshold.high') as number,
+            medium: this.configService.get<number>('maintenance.priorityThreshold.medium') as number
         };
     }
 

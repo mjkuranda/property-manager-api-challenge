@@ -21,15 +21,14 @@ The system consists of two main microservices:
 - **Framework**: NestJS (TypeScript)
 - **Database**: MongoDB
 - **Testing**: Jest
-- **API Documentation**: Swagger/OpenAPI
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- MongoDB
-- npm or yarn
+- DynamoDB
+- npm
 
 ### Installation
 
@@ -38,19 +37,32 @@ The system consists of two main microservices:
    npm install
    ```
 
-2. Create a `.env` file in the root directory with the following content:
+2. Create a `.env` file in `apps/property-management-api` with the following content:
    ```
-   PORT=3000
-   MONGODB_URI=mongodb://localhost:27017/property-management
-   ANALYSIS_API_URL=http://localhost:3001
+   PORT=4000
+   ANALYSIS_API_URL=http://localhost:4001
+
+   AWS_ACCESS_KEY_ID=local
+   AWS_SECRET_ACCESS_KEY=local
+   AWS_REGION=us-east-1
+
+   DYNAMODB_ENDPOINT=http://localhost:8000
+
+   MAINTENANCE_HIGH_PRIORITY_THRESHOLD=0.7
+   MAINTENANCE_MEDIUM_PRIORITY_THRESHOLD=0.4
    ```
 
-3. Start MongoDB:
+3. Start DynamoDB:
    ```bash
-   # Make sure MongoDB is running on your system
+   sudo docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb
+   ```
+   
+4. Init DynamoDB tables:
+   ```bash
+   npm run db:setup
    ```
 
-4. Start the services:
+5. Start the services:
    ```bash
    # Start Analysis API
    npm run start analysis-api
@@ -69,16 +81,16 @@ Analyzes maintenance request messages for priority classification.
 Request:
 ```json
 {
-  "message": "Bathroom pipe burst, water everywhere!"
+    "message": "Bathroom pipe burst, water everywhere!"
 }
 ```
 
 Response:
 ```json
 {
-  "keywords": ["burst", "water", "emergency"],
-  "urgencyIndicators": 3,
-  "priorityScore": 0.95
+    "keywords": ["burst", "water", "emergency"],
+    "urgencyIndicators": 3,
+    "priorityScore": 0.95
 }
 ```
 
@@ -90,21 +102,25 @@ Submit a new maintenance request.
 Request:
 ```json
 {
-  "tenantId": "T123",
-  "message": "Kitchen sink is leaking badly!",
-  "timestamp": "2024-03-15T09:30:00Z"
+    "tenantId": "81fca361-66a3-4e1b-95f1-79b3a834647d", 
+    "message": "urgent leaking water", 
+    "timestamp": "2025-06-02T17:47:59.404Z"
 }
 ```
 
 Response:
 ```json
 {
-  "requestId": "REQ001",
-  "priority": "high",
-  "analyzedFactors": {
-    "keywords": ["leak", "urgent"],
-    "priorityScore": 0.76
-  }
+    "requestId": "a65a3cfa-ca0b-4907-9823-dfbd9210492a",
+    "priority": "high",
+    "analyzedFactors": {
+        "keywords": [
+            "leak",
+            "water"
+        ],
+        "urgencyIndicators": 2,
+        "priorityScore": 1
+    }
 }
 ```
 
@@ -115,17 +131,51 @@ Query Parameters:
 - `priority`: Filter by priority level (high, medium, low)
 
 Response:
+
 ```json
 {
-  "requests": [
-    {
-      "id": "REQ001",
-      "priority": "high",
-      "message": "Kitchen sink is leaking badly!",
-      "createdAt": "2024-03-15T09:30:00Z",
-      "resolved": false
-    }
-  ]
+   "requests": [
+      {
+         "requests": [
+            {
+               "createdAt": "2025-06-02T17:47:59.404Z",
+               "analyzedFactors": {
+                  "keywords": [
+                     "leak",
+                     "water"
+                  ],
+                  "urgencyIndicators": 2,
+                  "priorityScore": 1
+               },
+               "tenantId": "81fca361-66a3-4e1b-95f1-79b3a834647d",
+               "id": "7edf19fb-a4ff-44e3-8518-2b4506736de8",
+               "message": "urgent leaking water",
+               "priority": "high",
+               "status": "PENDING",
+               "updatedAt": "2025-06-02T19:27:31.018Z",
+               "resolved": false
+            },
+            {
+               "createdAt": "2025-06-02T17:47:59.404Z",
+               "analyzedFactors": {
+                  "keywords": [
+                     "leak",
+                     "water"
+                  ],
+                  "urgencyIndicators": 2,
+                  "priorityScore": 1
+               },
+               "tenantId": "81fca361-66a3-4e1b-95f1-79b3a834647d",
+               "id": "a65a3cfa-ca0b-4907-9823-dfbd9210492a",
+               "message": "urgent leaking water",
+               "priority": "high",
+               "status": "PENDING",
+               "updatedAt": "2025-06-02T19:14:55.454Z",
+               "resolved": false
+            }
+         ]
+      }
+   ]
 }
 ```
 
@@ -155,9 +205,8 @@ The system uses the following classification criteria:
 ### Project Structure
 ```
 /apps
-  /analysis-api         # Mock AI analysis service
-  /property-management-api  # Main API service
-/libs                   # Shared libraries
+  /analysis-api               # Mock AI analysis service
+  /property-management-api    # Main API service
 ```
 
 ### Running Tests
@@ -174,7 +223,7 @@ npm run test property-management-api
 
 1. **Microservice Architecture**: Separated analysis logic from main API to allow for future scaling and potential replacement with real AI service.
 
-2. **MongoDB**: Chosen for flexibility in request data structure and good performance for read/write operations.
+2. **DynamoDB**: Chosen in terms of wide-usage in the company.
 
 3. **NestJS**: Provides robust architecture patterns and excellent TypeScript support.
 

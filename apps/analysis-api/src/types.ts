@@ -1,11 +1,6 @@
-import { AnalysisRequest, AnalysisResponse, PriorityLevel } from '../../shared/types/maintenance.types';
-
-export { AnalysisRequest, AnalysisResponse, PriorityLevel };
-
 export interface KeywordCategory {
     keywords: string[];
     score: number;
-    priority: PriorityLevel;
 }
 
 export interface ValidationErrorDetails {
@@ -24,4 +19,20 @@ export interface ErrorResponse {
         code: number;
         message: string;
     }
+}
+
+export interface AnalysisRequest {
+    message: string;
+}
+
+export interface AnalysisResponse {
+    keywords: string[];
+    urgencyIndicators: number;
+    priorityScore: number;
+}
+
+export interface AnalyzedFactors {
+    keywords: string[];
+    urgencyIndicators: number;
+    priorityScore: number;
 }

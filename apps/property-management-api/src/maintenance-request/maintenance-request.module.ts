@@ -4,9 +4,10 @@ import { MaintenanceRequestService } from './services/maintenance-request.servic
 import { MaintenanceRequestRepository } from './maintenance-request.repository';
 import { MaintenanceRequestPriorityService } from './services/maintenance-request-priority.service';
 import { AnalysisApiModule } from '../analysis-api/analysis-api.module';
+import { DynamoDBModule } from '../database/dynamodb/dynamodb.module';
 
 @Module({
-    imports: [AnalysisApiModule],
+    imports: [AnalysisApiModule, DynamoDBModule],
     controllers: [MaintenanceRequestController],
     providers: [
         MaintenanceRequestService,

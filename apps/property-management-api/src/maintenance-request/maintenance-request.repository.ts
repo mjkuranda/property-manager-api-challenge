@@ -1,15 +1,11 @@
 import { DynamoDB } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
-import {
-    AnalysisResponse,
-    AnalyzedFactors,
-    MaintenanceRequest, PriorityLevel,
-    RequestStatus
-} from './maintenance-request.types';
 import { Injectable } from '@nestjs/common';
 import { DynamodbService } from '../database/dynamodb/dynamodb.service';
-import { DYNAMODB_TABLES, DynamoDBTableName } from '../database/dynamodb/tables.config';
 import { CreateMaintenanceRequestDto } from './dtos/create-maintenance-request.dto';
+import { AnalyzedFactors, MaintenanceRequest, PriorityLevel, RequestStatus } from './types';
+import { AnalysisResponse } from '../analysis-api/types';
+import { DYNAMODB_TABLES, DynamoDBTableName } from '../database/dynamodb/tables.config';
 
 @Injectable()
 export class MaintenanceRequestRepository {

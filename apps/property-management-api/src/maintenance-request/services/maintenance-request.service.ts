@@ -1,13 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { MaintenanceRequestRepository } from '../maintenance-request.repository';
-import {
-    MaintenanceRequest,
-    CreateMaintenanceRequestResponse,
-    PriorityLevel
-} from '../maintenance-request.types';
 import { AnalysisApiService } from '../../analysis-api/analysis-api.service';
 import { MaintenanceRequestPriorityService } from './maintenance-request-priority.service';
 import { CreateMaintenanceRequestDto } from '../dtos/create-maintenance-request.dto';
+import { CreateMaintenanceRequestResponse, MaintenanceRequest, PriorityLevel } from '../types';
 
 @Injectable()
 export class MaintenanceRequestService {
