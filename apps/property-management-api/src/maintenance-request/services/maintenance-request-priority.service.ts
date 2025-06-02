@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AnalysisResponse, PriorityLevel } from '../../../shared/types/maintenance.types';
+import { AnalysisResponse, PriorityLevel } from '../../../../shared/types/maintenance.types';
 
 @Injectable()
 export class MaintenanceRequestPriorityService {

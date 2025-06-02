@@ -24,13 +24,6 @@ export interface AnalysisResponse {
     priorityScore: number;
 }
 
-// Maintenance request types
-export interface CreateMaintenanceRequestDto {
-    tenantId: string;
-    message: string;
-    timestamp: string;
-}
-
 // The analyzed factors structure as per technical requirements
 export interface AnalyzedFactors {
     keywords: string[];
@@ -58,4 +51,4 @@ export interface CreateMaintenanceRequestResponse {
 
 export interface GetMaintenanceRequestsResponse {
     requests: MaintenanceRequest[];
-} 
+}

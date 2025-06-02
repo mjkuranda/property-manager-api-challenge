@@ -1,6 +1,6 @@
-import { Controller, Post, Get, Body, Query } from '@nestjs/common';
-import { MaintenanceRequestService } from './maintenance-request.service';
-import { CreateMaintenanceRequestDto } from './maintenance-request.dto';
+import { Controller, Post, Get, Body, Query, ValidationPipe, ParseEnumPipe } from '@nestjs/common';
+import { MaintenanceRequestService } from './services/maintenance-request.service';
+import { CreateMaintenanceRequestDto } from './dtos/create-maintenance-request.dto';
 import {
     CreateMaintenanceRequestResponse,
     GetMaintenanceRequestsResponse,
@@ -13,12 +13,16 @@ export class MaintenanceRequestController {
     constructor(private readonly maintenanceService: MaintenanceRequestService) {}
 
     @Post()
-    async createRequest(@Body() createRequestDto: CreateMaintenanceRequestDto): Promise<CreateMaintenanceRequestResponse> {
+    async createRequest(
+        @Body(ValidationPipe) createRequestDto: CreateMaintenanceRequestDto
+    ): Promise<CreateMaintenanceRequestResponse> {
         return this.maintenanceService.createRequest(createRequestDto);
     }
 
     @Get()
-    async getRequests(@Query('priority') priority: PriorityLevel): Promise<GetMaintenanceRequestsResponse> {
+    async getRequests(
+        @Query('priority', new ParseEnumPipe(PriorityLevel)) priority: PriorityLevel
+    ): Promise<GetMaintenanceRequestsResponse> {
         const requests = await this.maintenanceService.getRequestsByPriority(priority);
 
         return { requests };
