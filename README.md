@@ -59,6 +59,10 @@ The system consists of two main microservices:
    
 4. Init DynamoDB tables:
    ```bash
+   # To build script file
+   npm run build:pm-api
+   
+   # To invoke script to create tables
    npm run db:setup
    ```
 

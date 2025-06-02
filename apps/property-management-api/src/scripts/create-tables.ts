@@ -1,5 +1,7 @@
 const { DynamoDB } = require('aws-sdk');
-const { DYNAMODB_TABLES } = require('./tables.config');
+const { DYNAMODB_TABLES } = require('../database/dynamodb/tables.config');
+
+require('dotenv').config();
 
 interface DynamoDBError extends Error {
     code?: string;
@@ -8,7 +10,9 @@ interface DynamoDBError extends Error {
 async function createTables() {
     const dynamodb = new DynamoDB({
         region: process.env.AWS_REGION || 'us-east-1',
-        endpoint: process.env.DYNAMODB_ENDPOINT,
+        endpoint: process.env.DYNAMODB_ENDPOINT || 'http://localhost:8000',
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'local',
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'local'
     });
 
     const tables = [
