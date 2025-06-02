@@ -1,14 +1,6 @@
-export interface AnalysisRequest {
-    message: string;
-}
+import { AnalysisRequest, AnalysisResponse, PriorityLevel } from '../../shared/types/maintenance.types';
 
-export interface AnalysisResponse {
-    keywords: string[];
-    urgencyIndicators: number;
-    priorityScore: number;
-}
-
-export type PriorityLevel = 'high' | 'medium' | 'low';
+export { AnalysisRequest, AnalysisResponse, PriorityLevel };
 
 export interface KeywordCategory {
     keywords: string[];

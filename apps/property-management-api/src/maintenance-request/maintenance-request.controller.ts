@@ -1,7 +1,11 @@
 import { Controller, Post, Get, Body, Query } from '@nestjs/common';
 import { MaintenanceRequestService } from './maintenance-request.service';
 import { CreateMaintenanceRequestDto } from './maintenance-request.dto';
-import { CreateMaintenanceRequestResponse, GetMaintenanceRequestsResponse } from './maintenance-request.types';
+import {
+    CreateMaintenanceRequestResponse,
+    GetMaintenanceRequestsResponse,
+    PriorityLevel
+} from './maintenance-request.types';
 
 @Controller('requests')
 export class MaintenanceRequestController {
@@ -14,7 +18,7 @@ export class MaintenanceRequestController {
     }
 
     @Get()
-    async getRequests(@Query('priority') priority: RequestPriority): Promise<GetMaintenanceRequestsResponse> {
+    async getRequests(@Query('priority') priority: PriorityLevel): Promise<GetMaintenanceRequestsResponse> {
         const requests = await this.maintenanceService.getRequestsByPriority(priority);
 
         return { requests };

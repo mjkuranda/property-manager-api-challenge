@@ -1,29 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { MaintenanceRequestRepository } from './maintenance-request.repository';
-import { CreateMaintenanceRequestResponse, MaintenanceRequest } from './maintenance-request.types';
-import { CreateMaintenanceRequestDto } from './maintenance-request.dto';
+import {
+    MaintenanceRequest,
+    CreateMaintenanceRequestDto,
+    CreateMaintenanceRequestResponse,
+    RequestStatus,
+    AnalyzedFactors, PriorityLevel,
+} from './maintenance-request.types';
 import { AnalysisApiService } from '../analysis-api/analysis-api.service';
+import { MaintenanceRequestPriorityService } from './maintenance-request-priority.service';
 
 @Injectable()
 export class MaintenanceRequestService {
 
     constructor(
         private readonly maintenanceRequestRepository: MaintenanceRequestRepository,
+        private readonly maintenanceRequestPriorityService: MaintenanceRequestPriorityService,
         private readonly analysisApiService: AnalysisApiService
     ) {}
 
     async createRequest(createRequestDto: CreateMaintenanceRequestDto): Promise<CreateMaintenanceRequestResponse> {
-        const requestId = `REQ${uuidv4()}`;
-        const priority = this.analyzePriority(createRequestDto.message);
-        const analyzedFactors = this.analyzeRequest(createRequestDto.message);
+        const analysis = await this.analysisApiService.analyze(createRequestDto.message);
+        const priority = this.maintenanceRequestPriorityService.determinePriority(analysis);
+
+        const requestId = uuidv4();
+        const now = new Date().toISOString();
+        const analyzedFactors: AnalyzedFactors = {
+            keywords: analysis.keywords,
+            urgencyIndicators: analysis.urgencyIndicators,
+            priorityScore: analysis.priorityScore
+        };
 
         const request: MaintenanceRequest = {
             id: requestId,
             tenantId: createRequestDto.tenantId,
             message: createRequestDto.message,
             priority,
-            createdAt: createRequestDto.timestamp,
+            status: RequestStatus.PENDING,
+            createdAt: createRequestDto.timestamp || now,
+            updatedAt: now,
             resolved: false,
             analyzedFactors
         };
@@ -32,12 +48,13 @@ export class MaintenanceRequestService {
 
         return {
             requestId,
-            priority,
+            priority: priority.toLowerCase(),
             analyzedFactors
         };
     }
 
-    async getRequestsByPriority(priority: string): Promise<MaintenanceRequest[]> {
-        return this.maintenanceRequestRepository.findByPriority(priority);
+    async getRequestsByPriority(priority: PriorityLevel): Promise<MaintenanceRequest[]> {
+        return await this.maintenanceRequestRepository.findByPriority(priority);
     }
+
 }

@@ -1,7 +1,4 @@
-export type AnalyzeRequestMessage = string;
+import { AnalysisRequest, AnalysisResponse } from '../../../shared/types/maintenance.types';
 
-export interface AnalyzeRequestResponse {
-    keywords: string[];
-    urgencyIndicators: number;
-    priorityScore: number;
-}
+export type AnalyzeRequestMessage = AnalysisRequest['message'];
+export type AnalyzeRequestResponse = AnalysisResponse;

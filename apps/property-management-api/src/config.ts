@@ -9,6 +9,12 @@ export interface AppConfig {
         region: string;
     };
     dynamodbEndpoint: string;
+    maintenance: {
+        priorityThreshold: {
+            high: number;
+            medium: number;
+        };
+    };
 }
 
 export function loadConfig(): AppConfig {
@@ -22,6 +28,12 @@ export function loadConfig(): AppConfig {
             secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'local',
             region: process.env.AWS_REGION || 'us-east-1'
         },
-        dynamodbEndpoint: process.env.DYNAMODB_ENDPOINT || 'http://localhost:8000'
+        dynamodbEndpoint: process.env.DYNAMODB_ENDPOINT || 'http://localhost:8000',
+        maintenance:{
+            priorityThreshold :{
+                high: process.env.MAINTENANCE_HIGH_PRIORITY_THRESHOLD || 0.8,
+                medium: process.env.MAINTENANCE_MEDIUM_PRIORITY_THRESHOLD || 0.5
+            }
+        }
     };
 }

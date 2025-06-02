@@ -1,8 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import {
-    CreateMaintenanceRequestInput,
-    MaintenanceRequest,
+    MaintenanceRequest, PriorityLevel,
     RequestStatus
 } from './maintenance-request.types';
 import { Injectable } from '@nestjs/common';
@@ -37,7 +36,7 @@ export class MaintenanceRequestRepository {
         return request;
     }
 
-    async findByPriority(priority: string): Promise<MaintenanceRequest[]> {
+    async findByPriority(priority: PriorityLevel): Promise<MaintenanceRequest[]> {
         const result = await this.dynamodb.query({
             TableName: this.tableName,
             IndexName: 'PriorityIndex',
