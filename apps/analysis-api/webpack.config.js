@@ -1,40 +1,36 @@
 const path = require('path');
-const slsw = require('serverless-webpack');
 const nodeExternals = require('webpack-node-externals');
+const slsw = require('serverless-webpack');
 
 module.exports = {
-    entry: slsw.lib.entries,
-    target: 'node',
+    context: __dirname,
     mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
-    optimization: {
-        minimize: false
-    },
-    performance: {
-        hints: false
-    },
+    entry: slsw.lib.entries,
     devtool: 'source-map',
-    externals: [nodeExternals()],
     resolve: {
-        extensions: ['.ts', '.js'],
-        modules: ['node_modules']
+        extensions: ['.json', '.ts', '.js'],
+        alias: {
+            '@libs/shared': path.resolve(__dirname, '../../libs/shared/src')
+        }
     },
+    output: {
+        libraryTarget: 'commonjs',
+        path: path.join(__dirname, '.webpack'),
+        filename: '[name].js'
+    },
+    target: 'node',
+    externals: [nodeExternals()],
     module: {
         rules: [
             {
                 test: /\.ts$/,
-                use: {
-                    loader: 'ts-loader',
-                    options: {
-                        configFile: 'tsconfig.app.json'
-                    }
-                },
-                exclude: /node_modules/
+                loader: 'ts-loader',
+                exclude: /node_modules/,
+                options: {
+                    transpileOnly: true,
+                    experimentalWatchApi: true
+                }
             }
         ]
-    },
-    output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, '.webpack'),
-        libraryTarget: 'commonjs2'
     }
 }; 

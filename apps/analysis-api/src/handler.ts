@@ -15,9 +15,7 @@ const validationService = new ValidationService();
  * @param event - The API Gateway event containing the request data
  * @returns A promise resolving to an API Gateway response
  */
-export const analyze = async (
-    event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
+export const analyze = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     try {
         const validatedData = await validationService.validate(event.body);
         const analysis = analysisService.analyze(validatedData);

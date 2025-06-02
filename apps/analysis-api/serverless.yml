@@ -1,11 +1,8 @@
 service: analysis-api
 
-frameworkVersion: '3'
-
 provider:
     name: aws
     runtime: nodejs18.x
-    region: us-east-1
 
 functions:
     analyze:
@@ -25,11 +22,8 @@ plugins:
 custom:
     webpack:
         webpackConfig: webpack.config.js
-        packager: npm
         includeModules: true
+        packager: npm
     serverless-offline:
         httpPort: 4001
         lambdaPort: 4002
-    stages:
-        - dev
-        - prod
