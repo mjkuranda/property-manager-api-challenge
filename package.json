@@ -1,6 +1,6 @@
 {
     "name": "property-management-api",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "scripts": {
         "start:pm-api": "nest start property-management-api",
         "start:pm-api:dev": "nest start property-management-api --watch",
@@ -9,6 +9,7 @@
         "build:pm-api": "nest build property-management-api",
         "build:analysis": "cd apps/analysis-api && serverless package",
         "deploy:analysis": "cd apps/analysis-api && serverless deploy",
+        "db:setup": "node apps/property-management-api/src/database/dynamodb/create-tables.js",
         "lint": "eslint 'apps/**/{src,test}/**/*.ts'",
         "lint:fix": "eslint . --ext .ts --fix",
         "test": "jest",
@@ -30,11 +31,14 @@
         "libs/*"
     ],
     "dependencies": {
+        "@aws-sdk/client-dynamodb": "^3.821.0",
+        "@aws-sdk/lib-dynamodb": "^3.821.0",
         "@nestjs/axios": "^4.0.0",
         "@nestjs/common": "^11.1.2",
         "@nestjs/config": "^4.0.2",
         "@nestjs/core": "^11.1.2",
         "aws-lambda": "^1.0.7",
+        "aws-sdk": "^2.1692.0",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.14.1",
         "reflect-metadata": "^0.2.2",

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 import { loadConfig } from './config';
-// TODO: import { RequestsModule } from './requests/requests.module';
+import { MaintenanceRequestModule } from './maintenance-request/maintenance-request.module';
 
 @Module({
     imports: [
@@ -11,7 +11,7 @@ import { loadConfig } from './config';
             load: [loadConfig],
         }),
         HttpModule,
-        // TODO: RequestsModule
+        MaintenanceRequestModule,
     ]
 })
 export class AppModule {}

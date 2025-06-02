@@ -1,0 +1,96 @@
+const { DynamoDB } = require('aws-sdk');
+const { DYNAMODB_TABLES } = require('./tables.config');
+
+interface DynamoDBError extends Error {
+    code?: string;
+}
+
+async function createTables() {
+    const dynamodb = new DynamoDB({
+        region: process.env.AWS_REGION || 'us-east-1',
+        endpoint: process.env.DYNAMODB_ENDPOINT,
+    });
+
+    const tables = [
+        {
+            TableName: DYNAMODB_TABLES.MAINTENANCE_REQUESTS,
+            KeySchema: [
+                { AttributeName: 'id', KeyType: 'HASH' },
+            ],
+            AttributeDefinitions: [
+                { AttributeName: 'id', AttributeType: 'S' },
+                { AttributeName: 'priority', AttributeType: 'S' },
+                { AttributeName: 'tenantId', AttributeType: 'S' },
+                { AttributeName: 'createdAt', AttributeType: 'S' },
+            ],
+            GlobalSecondaryIndexes: [
+                {
+                    IndexName: 'PriorityIndex',
+                    KeySchema: [
+                        { AttributeName: 'priority', KeyType: 'HASH' },
+                        { AttributeName: 'createdAt', KeyType: 'RANGE' },
+                    ],
+                    Projection: {
+                        ProjectionType: 'ALL',
+                    },
+                    ProvisionedThroughput: {
+                        ReadCapacityUnits: 5,
+                        WriteCapacityUnits: 5,
+                    },
+                },
+                {
+                    IndexName: 'TenantIndex',
+                    KeySchema: [
+                        { AttributeName: 'tenantId', KeyType: 'HASH' },
+                        { AttributeName: 'createdAt', KeyType: 'RANGE' },
+                    ],
+                    Projection: {
+                        ProjectionType: 'ALL',
+                    },
+                    ProvisionedThroughput: {
+                        ReadCapacityUnits: 5,
+                        WriteCapacityUnits: 5,
+                    },
+                },
+            ],
+            LocalSecondaryIndexes: [
+                {
+                    IndexName: 'CreatedAtIndex',
+                    KeySchema: [
+                        { AttributeName: 'id', KeyType: 'HASH' },
+                        { AttributeName: 'createdAt', KeyType: 'RANGE' },
+                    ],
+                    Projection: {
+                        ProjectionType: 'ALL',
+                    },
+                },
+            ],
+            ProvisionedThroughput: {
+                ReadCapacityUnits: 5,
+                WriteCapacityUnits: 5,
+            },
+        },
+    ];
+
+    for (const tableDefinition of tables) {
+        try {
+            console.log(`Creating table: ${tableDefinition.TableName}`);
+            await dynamodb.createTable(tableDefinition).promise();
+            console.log(`Table created successfully: ${tableDefinition.TableName}`);
+        } catch (error) {
+            const dynamoError = error as DynamoDBError;
+            if (dynamoError.code === 'ResourceInUseException') {
+                console.log(`Table already exists: ${tableDefinition.TableName}`);
+            } else {
+                console.error(`Error creating table ${tableDefinition.TableName}:`, dynamoError);
+            }
+        }
+    }
+}
+
+// Run if this file is executed directly
+if (require.main === module) {
+    createTables()
+        .then(() => console.log('Tables creation completed'))
+        .catch(error => console.error('Error creating tables:', error));
+}
