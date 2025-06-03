@@ -27,12 +27,17 @@ The system consists of two main microservices:
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- DynamoDB
+- Docker (with DynamoDB image) or just DynamoDB
 - npm
 
 ### Installation
 
 1. Install dependencies:
+   - root directory
+   - apps/property-manager-api
+   - apps/analysis-api
+   
+   Using:
    ```bash
    npm install
    ```
@@ -96,9 +101,9 @@ Request:
 Response:
 ```json
 {
-    "keywords": ["burst", "water", "emergency"],
-    "urgencyIndicators": 3,
-    "priorityScore": 0.95
+    "keywords": ["burst", "emergency"],
+    "urgencyIndicators": 2,
+    "priorityScore": 0.7
 }
 ```
 
@@ -127,7 +132,7 @@ Response:
             "water"
         ],
         "urgencyIndicators": 2,
-        "priorityScore": 1
+        "priorityScore": 0.7
     }
 }
 ```
@@ -153,7 +158,7 @@ Response:
                      "water"
                   ],
                   "urgencyIndicators": 2,
-                  "priorityScore": 1
+                  "priorityScore": 0.7
                },
                "tenantId": "81fca361-66a3-4e1b-95f1-79b3a834647d",
                "id": "7edf19fb-a4ff-44e3-8518-2b4506736de8",
@@ -171,7 +176,7 @@ Response:
                      "water"
                   ],
                   "urgencyIndicators": 2,
-                  "priorityScore": 1
+                  "priorityScore": 0.7
                },
                "tenantId": "81fca361-66a3-4e1b-95f1-79b3a834647d",
                "id": "a65a3cfa-ca0b-4907-9823-dfbd9210492a",
@@ -218,13 +223,14 @@ The system uses the following classification criteria:
 ```
 
 ### Running Tests
+Regarding Analysis API is mocked, unit and E2E tests were written only for Property Manager API.
+To run them, go to `apps/property-manager-api` and use script:
 ```bash
-# Run all tests
+# Run unit tests
 npm run test
 
-# Run tests for specific app
-npm run test analysis-api
-npm run test property-management-api
+# Run E2E tests
+npm run test:e2e
 ```
 
 ## Design Decisions

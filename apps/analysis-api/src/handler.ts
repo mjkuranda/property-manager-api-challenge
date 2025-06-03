@@ -3,8 +3,10 @@ import { AnalysisService } from './services/analysis.service';
 import { ValidationService } from './services/validation.service';
 import { createSuccessResponse, handleError } from './utils';
 import { AnalysisResponse } from './types';
+import { KeywordService } from './services/keyword.service';
 
-const analysisService = new AnalysisService();
+const keywordService = new KeywordService();
+const analysisService = new AnalysisService(keywordService);
 const validationService = new ValidationService();
 
 /**

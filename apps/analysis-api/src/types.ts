@@ -1,6 +1,12 @@
-export interface KeywordCategory {
-    keywords: string[];
-    score: number;
+export interface KeywordObject {
+    keyword: string;
+    isUrgent?: boolean;
+}
+
+export interface DetectedInformation {
+    keywords: string[],
+    priorityScore: number,
+    urgencyIndicators: number
 }
 
 export interface ValidationErrorDetails {
@@ -25,14 +31,4 @@ export interface AnalysisRequest {
     message: string;
 }
 
-export interface AnalysisResponse {
-    keywords: string[];
-    urgencyIndicators: number;
-    priorityScore: number;
-}
-
-export interface AnalyzedFactors {
-    keywords: string[];
-    urgencyIndicators: number;
-    priorityScore: number;
-}
+export type AnalysisResponse = DetectedInformation;

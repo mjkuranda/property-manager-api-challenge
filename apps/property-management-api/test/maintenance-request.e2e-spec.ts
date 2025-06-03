@@ -11,6 +11,7 @@ import { loadConfig } from '../src/config';
 import { HttpModule } from '@nestjs/axios';
 import { GlobalExceptionFilter } from '../src/filters';
 import { DatabaseError } from '../src/errors';
+import { LoggerModule } from '../src/modules/logger/logger.module';
 
 describe('MaintenanceRequest (e2e)', () => {
     let app: INestApplication;
@@ -37,6 +38,7 @@ describe('MaintenanceRequest (e2e)', () => {
             imports: [
                 MaintenanceRequestModule,
                 HttpModule,
+                LoggerModule,
                 ConfigModule.forRoot({
                     isGlobal: true,
                     load: [loadConfig]
