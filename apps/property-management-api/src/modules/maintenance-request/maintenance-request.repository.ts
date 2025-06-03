@@ -7,6 +7,8 @@ import { AnalyzedFactors, MaintenanceRequest, PriorityLevel, RequestStatus } fro
 import { AnalysisResponse } from '../analysis-api/types';
 import { DYNAMODB_TABLES, DynamoDBTableName } from '../database/dynamodb/tables.config';
 import { DatabaseError } from '../../errors';
+import { LoggerService } from '../logger/logger.service';
+import { ContextString } from '../logger/logger.types';
 
 @Injectable()
 export class MaintenanceRequestRepository {
@@ -14,12 +16,17 @@ export class MaintenanceRequestRepository {
     private readonly dynamodb: DynamoDB.DocumentClient;
     private readonly tableName: DynamoDBTableName;
 
-    constructor(private readonly dynamodbService: DynamodbService) {
+    constructor(
+        private readonly dynamodbService: DynamodbService,
+        private readonly loggerService: LoggerService
+    ) {
         this.dynamodb = this.dynamodbService.getClient();
         this.tableName = DYNAMODB_TABLES.MAINTENANCE_REQUESTS;
     }
 
     async create(createRequestDto: CreateMaintenanceRequestDto, analysis: AnalysisResponse, priority: PriorityLevel): Promise<MaintenanceRequest> {
+        const context: ContextString = 'MaintenanceRequestRepository/create';
+
         const requestId = uuidv4();
         const now = new Date().toISOString();
 
@@ -46,7 +53,11 @@ export class MaintenanceRequestRepository {
                 TableName: this.tableName,
                 Item: request,
             }).promise();
+
+            this.loggerService.info(context, 'Added a new maintenance request to the database.');
         } catch (error: any) {
+            this.loggerService.error(context, error.message);
+
             throw new DatabaseError(error.message);
         }
 
@@ -54,6 +65,8 @@ export class MaintenanceRequestRepository {
     }
 
     async findByPriority(priority: PriorityLevel): Promise<MaintenanceRequest[]> {
+        const context: ContextString = 'MaintenanceRequestRepository/findByPriority';
+
         let result;
 
         try {
@@ -66,6 +79,8 @@ export class MaintenanceRequestRepository {
                 },
             }).promise();
         } catch (error: any) {
+            this.loggerService.error(context, error.message);
+
             throw new DatabaseError(error.message);
         }
 

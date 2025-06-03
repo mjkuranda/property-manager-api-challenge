@@ -1,33 +1,26 @@
 {
     "name": "property-management-monorepo",
-    "version": "1.6.0",
+    "version": "1.7.0",
     "private": true,
     "scripts": {
         "dev": "npm-run-all --parallel dev:*",
         "dev:pm-api": "npm run start:dev -w @apps/property-management-api",
         "dev:analysis": "npm run start -w @apps/analysis-api",
-
         "start": "npm-run-all --parallel start:*",
         "start:pm-api": "npm run start -w @apps/property-management-api",
         "start:analysis": "npm run start -w @apps/analysis-api",
-
         "build": "npm-run-all build:*",
         "build:pm-api": "npm run build -w @apps/property-management-api",
         "build:analysis": "npm run build -w @apps/analysis-api",
-
         "test": "npm run test --workspaces --if-present",
         "test:watch": "npm run test:watch --workspaces --if-present",
         "test:cov": "npm run test:cov --workspaces --if-present",
-
         "lint": "npm run lint --workspaces --if-present",
         "lint:fix": "npm run lint:fix --workspaces --if-present",
-
         "clean": "npm run clean --workspaces --if-present",
         "clean:all": "rimraf node_modules **/node_modules dist **/dist",
-
         "db:run": "sudo docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb",
         "db:setup": "node dist/apps/property-management-api/scripts/create-tables.js",
-
         "deploy:analysis": "npm run deploy -w @apps/analysis-api"
     },
     "workspaces": [
