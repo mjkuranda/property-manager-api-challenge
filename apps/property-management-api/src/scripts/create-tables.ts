@@ -20,6 +20,7 @@ async function createTables() {
             TableName: DYNAMODB_TABLES.MAINTENANCE_REQUESTS,
             KeySchema: [
                 { AttributeName: 'id', KeyType: 'HASH' },
+                { AttributeName: 'createdAt', KeyType: 'RANGE' }
             ],
             AttributeDefinitions: [
                 { AttributeName: 'id', AttributeType: 'S' },

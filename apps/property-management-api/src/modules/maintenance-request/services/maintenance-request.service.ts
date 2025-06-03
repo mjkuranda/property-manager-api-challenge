@@ -4,7 +4,7 @@ import { AnalysisApiService } from '../../analysis-api/analysis-api.service';
 import { MaintenanceRequestPriorityService } from './maintenance-request-priority.service';
 import { CreateMaintenanceRequestDto } from '../dtos/create-maintenance-request.dto';
 import { CreateMaintenanceRequestResponse, MaintenanceRequest, PriorityLevel } from '../types';
-import { MaintenanceRequestCreationError } from '../../../errors';
+import { DatabaseError, MaintenanceRequestCreationError } from '../../../errors';
 
 @Injectable()
 export class MaintenanceRequestService {
@@ -28,6 +28,10 @@ export class MaintenanceRequestService {
                 analyzedFactors: newRequest.analyzedFactors
             };
         } catch (error: any) {
+            if (error instanceof DatabaseError) {
+                throw error;
+            }
+
             throw new MaintenanceRequestCreationError(error.message);
         }
     }
