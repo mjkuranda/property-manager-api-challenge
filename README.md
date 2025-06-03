@@ -234,16 +234,12 @@ npm run test:e2e
 ```
 
 ## Design Decisions
-
 1. **Microservice Architecture**: Separated analysis logic from main API to allow for future scaling and potential replacement with real AI service.
-
 2. **DynamoDB**: Chosen in terms of wide-usage in the company.
-
 3. **NestJS**: Provides robust architecture patterns and excellent TypeScript support.
-
 4. **Separate package.json**: Each application has a separate `package.json` to manage scripts, version and dependencies. Common dependencies are located in root directory.
-
 5. **Simple calculating priority score**: Focuses on finding words. "Urgent" words has a bigger weight than other ones. It can be replaced with another system: each word has a defined weight, which has an impact on the final score. The current way of calculating is simple and demonstrates mocked system.
+6. **Three-tier API architecture**: Good to separate responsibility and make testing easier.
 
 ## Future Enhancements
 
