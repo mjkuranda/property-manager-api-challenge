@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Marek Kurańda](https://github.com/mjkuranda): `KeywordService` that calculates `priorityScore`.
 
 ### Changed
-- [Marek Kurańda](https://github.com/mjkuranda): The way how priority score is calculating. 
+- [Marek Kurańda](https://github.com/mjkuranda): The way how priority score is calculating.
+- [Marek Kurańda](https://github.com/mjkuranda): Index only on `priority` column in the database.
 
 ## [1.7.0] - 2025-06-03
 ### Added
