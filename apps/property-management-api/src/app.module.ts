@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 import { loadConfig } from './config';
-import { MaintenanceRequestModule } from './maintenance-request/maintenance-request.module';
+import { MaintenanceRequestModule } from './modules/maintenance-request/maintenance-request.module';
 
 @Module({
     imports: [

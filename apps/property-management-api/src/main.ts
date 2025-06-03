@@ -1,8 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppConfig } from './config';
+import { GlobalExceptionFilter } from './filters';
+import { GlobalValidationPipe } from './pipes';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -15,13 +17,8 @@ async function bootstrap() {
         defaultVersion: '1'
     });
 
-    app.useGlobalPipes(
-        new ValidationPipe({
-            whitelist: true,
-            forbidNonWhitelisted: true,
-            transform: true
-        }),
-    );
+    app.useGlobalPipes(new GlobalValidationPipe());
+    app.useGlobalFilters(new GlobalExceptionFilter());
 
     await app.listen(port);
 
