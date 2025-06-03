@@ -6,8 +6,13 @@
         "strict": true,
         "declaration": false,
         "rootDir": "./src",
-        "outDir": "../../dist/apps/property-management-api"
+        "outDir": "../../dist/apps/property-management-api",
+        "esModuleInterop": true
     },
-    "include": ["src/**/*"],
+    "include": [
+        "src/**/*",
+        "../../node_modules/@types/jest/index.d.ts",
+        "test/**/*"
+    ],
     "exclude": ["node_modules", "dist", "test", "**/*test.ts"]
 }

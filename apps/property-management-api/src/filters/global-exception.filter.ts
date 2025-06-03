@@ -14,7 +14,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         if (exception instanceof AbstractError) {
             const { statusCode, message, name } = exception;
 
-            response
+            return response
                 .status(statusCode)
                 .json({
                     statusCode,

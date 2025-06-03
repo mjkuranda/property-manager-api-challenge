@@ -6,6 +6,7 @@ import { CreateMaintenanceRequestDto } from './dtos/create-maintenance-request.d
 import { AnalyzedFactors, MaintenanceRequest, PriorityLevel, RequestStatus } from './types';
 import { AnalysisResponse } from '../analysis-api/types';
 import { DYNAMODB_TABLES, DynamoDBTableName } from '../database/dynamodb/tables.config';
+import { DatabaseError } from '../../errors';
 
 @Injectable()
 export class MaintenanceRequestRepository {
@@ -40,23 +41,33 @@ export class MaintenanceRequestRepository {
             analyzedFactors
         };
 
-        await this.dynamodb.put({
-            TableName: this.tableName,
-            Item: request,
-        }).promise();
+        try {
+            await this.dynamodb.put({
+                TableName: this.tableName,
+                Item: request,
+            }).promise();
+        } catch (error: any) {
+            throw new DatabaseError(error.message);
+        }
 
         return request;
     }
 
     async findByPriority(priority: PriorityLevel): Promise<MaintenanceRequest[]> {
-        const result = await this.dynamodb.query({
-            TableName: this.tableName,
-            IndexName: 'PriorityIndex',
-            KeyConditionExpression: 'priority = :priority',
-            ExpressionAttributeValues: {
-                ':priority': priority,
-            },
-        }).promise();
+        let result;
+
+        try {
+            result = await this.dynamodb.query({
+                TableName: this.tableName,
+                IndexName: 'PriorityIndex',
+                KeyConditionExpression: 'priority = :priority',
+                ExpressionAttributeValues: {
+                    ':priority': priority,
+                },
+            }).promise();
+        } catch (error: any) {
+            throw new DatabaseError(error.message);
+        }
 
         return (result.Items as MaintenanceRequest[]) || [];
     }

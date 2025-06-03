@@ -1,1 +1,2 @@
-export * from './global-validation.pipe';
+export * from './dto-validation.pipe';
+export * from './priority-validation.pipe';

@@ -4,12 +4,12 @@ import { plainToInstance } from 'class-transformer';
 import { InvalidDtoError } from '../errors';
 
 @Injectable()
-export class GlobalValidationPipe implements PipeTransform {
+export class DtoValidationPipe implements PipeTransform {
 
     async transform(value: any, metadata: ArgumentMetadata) {
         const { metatype } = metadata;
 
-        if (!metatype) {
+        if (!metatype || !this.toValidate(metatype)) {
             return value;
         }
 
@@ -28,6 +28,13 @@ export class GlobalValidationPipe implements PipeTransform {
         }
 
         return object;
+    }
+
+    private toValidate(metatype: any): boolean {
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        const types = [String, Boolean, Number, Array, Object];
+
+        return !types.includes(metatype);
     }
 
 }
