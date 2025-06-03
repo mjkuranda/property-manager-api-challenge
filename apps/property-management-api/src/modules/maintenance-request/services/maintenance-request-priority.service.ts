@@ -18,7 +18,7 @@ export class MaintenanceRequestPriorityService {
     }
 
     public determinePriority(analysis: AnalysisResponse): PriorityLevel {
-        const { priorityScore, urgencyIndicators, keywords } = analysis;
+        const { priorityScore, urgencyIndicators } = analysis;
 
         if (urgencyIndicators >= 2 || priorityScore >= this.priorityThresholds.high) {
             return PriorityLevel.HIGH;
