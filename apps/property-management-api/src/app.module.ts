@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 import { loadConfig } from './config';
 import { MaintenanceRequestModule } from './modules/maintenance-request/maintenance-request.module';
+import { LoggerModule } from './modules/logger/logger.module';
 
 @Module({
     imports: [
@@ -12,6 +13,7 @@ import { MaintenanceRequestModule } from './modules/maintenance-request/maintena
         }),
         HttpModule,
         MaintenanceRequestModule,
+        LoggerModule
     ]
 })
 export class AppModule {}
