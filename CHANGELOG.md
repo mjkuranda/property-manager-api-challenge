@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2025-06-03
+### Changed
+- [Marek Kurańda](https://github.com/mjkuranda): `tsconfig.json` configuration - no extension of base one.
+
 ## [1.4.0] - 2025-06-02
 ### Changed
 - [Marek Kurańda](https://github.com/mjkuranda): Separate `package.json` for each application and root directory.
