@@ -6,14 +6,18 @@ const urgentKeywords: string[] = [
     'structural', 'collapse', 'frozen pipe', 'no heat', 'emergency'
 ];
 
-const otherKeywords: string[] = [
+const mediumKeywords: string[] = [
     'broken', 'appliance', 'stuck', 'door', 'noise', 'loud', 'malfunction',
-    'not working', 'repair', 'fix', 'maintenance',
+    'not working', 'repair', 'fix', 'maintenance'
+];
+
+const otherKeywords: string[] = [
     'paint', 'cosmetic', 'aesthetic', 'squeaky', 'hinge', 'minor',
     'replace', 'lightbulb', 'clean', 'routine'
 ];
 
 export const keywordObjects: KeywordObject[] = [
     ...urgentKeywords.map(keyword => ({ keyword, isUrgent: true })),
+    ...mediumKeywords.map(keyword => ({ keyword, isMedium: true })),
     ...otherKeywords.map(keyword => ({ keyword }))
 ];

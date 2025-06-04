@@ -1,6 +1,7 @@
 export interface KeywordObject {
     keyword: string;
     isUrgent?: boolean;
+    isMedium?: boolean;
 }
 
 export interface DetectedInformation {

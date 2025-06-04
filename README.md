@@ -42,7 +42,7 @@ The system consists of two main microservices:
    npm install
    ```
 
-2. Create a `.env` file in `apps/property-management-api` with the following content:
+2. Create a `.env` file in root directory with the following content:
    ```
    PORT=4000
    ANALYSIS_API_URL=http://localhost:4001
@@ -57,7 +57,7 @@ The system consists of two main microservices:
    MAINTENANCE_MEDIUM_PRIORITY_THRESHOLD=0.4
    ```
 
-3. Start DynamoDB:
+3. Start DynamoDB, if you run locally (e.g. using Docker):
    ```bash
    sudo docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb
    ```
@@ -67,7 +67,7 @@ The system consists of two main microservices:
    # To build script file
    npm run build:pm-api
    
-   # To invoke script to create tables
+   # To execute script of setting the tables
    npm run db:setup
    ```
 
@@ -103,7 +103,7 @@ Response:
 {
     "keywords": ["burst", "emergency"],
     "urgencyIndicators": 2,
-    "priorityScore": 0.7
+    "priorityScore": 0.8
 }
 ```
 
@@ -132,7 +132,7 @@ Response:
             "water"
         ],
         "urgencyIndicators": 2,
-        "priorityScore": 0.7
+        "priorityScore": 0.8
     }
 }
 ```
@@ -158,7 +158,7 @@ Response:
                      "water"
                   ],
                   "urgencyIndicators": 2,
-                  "priorityScore": 0.7
+                  "priorityScore": 0.8
                },
                "tenantId": "81fca361-66a3-4e1b-95f1-79b3a834647d",
                "id": "7edf19fb-a4ff-44e3-8518-2b4506736de8",
@@ -176,7 +176,7 @@ Response:
                      "water"
                   ],
                   "urgencyIndicators": 2,
-                  "priorityScore": 0.7
+                  "priorityScore": 0.8
                },
                "tenantId": "81fca361-66a3-4e1b-95f1-79b3a834647d",
                "id": "a65a3cfa-ca0b-4907-9823-dfbd9210492a",

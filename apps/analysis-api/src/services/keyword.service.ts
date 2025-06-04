@@ -6,18 +6,25 @@ export class KeywordService {
     detectKeywords(message: string): DetectedInformation {
         const detectedKeywords: string[] = [];
         let urgencyIndicators = 0;
+        let mediumIndicators = 0;
 
-        for (const { keyword, isUrgent } of keywordObjects) {
+        for (const { keyword, isUrgent, isMedium } of keywordObjects) {
             if (message.includes(keyword.toLowerCase())) {
                 detectedKeywords.push(keyword);
 
                 if (isUrgent) {
                     urgencyIndicators++;
+
+                    continue;
+                }
+
+                if (isMedium) {
+                    mediumIndicators++;
                 }
             }
         }
 
-        const priorityScore = this.calculatePriorityScore(urgencyIndicators);
+        const priorityScore = this.calculatePriorityScore(urgencyIndicators, mediumIndicators);
 
         return {
             keywords: detectedKeywords,
@@ -26,10 +33,12 @@ export class KeywordService {
         };
     }
 
-    calculatePriorityScore(urgencyIndicators: number): number {
-        const baseScore = 0.1;
+    calculatePriorityScore(urgencyIndicators: number, mediumIndicators: number): number {
+        const baseScore = 0.2;
         const maxScore = 1;
 
-        return Math.min(maxScore, baseScore + (urgencyIndicators * 0.3));
+        const value = Math.min(maxScore, baseScore + (urgencyIndicators * 0.3) + (mediumIndicators * 0.2));
+
+        return parseFloat(value.toFixed(2));
     }
 }
