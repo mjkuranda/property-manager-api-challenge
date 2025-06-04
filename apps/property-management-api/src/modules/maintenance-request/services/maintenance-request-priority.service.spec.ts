@@ -23,7 +23,7 @@ describe('MaintenanceRequestPriorityService', () => {
                 {
                     provide: ConfigService,
                     useValue: mockConfigService,
-                },
+                }
             ],
         }).compile();
 

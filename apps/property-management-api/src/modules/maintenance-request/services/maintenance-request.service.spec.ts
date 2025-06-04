@@ -7,6 +7,7 @@ import { CreateMaintenanceRequestDto } from '../dtos/create-maintenance-request.
 import { PriorityLevel } from '../types';
 import { MaintenanceRequestCreationError } from '../../../errors';
 import { v4 as uuidv4 } from 'uuid';
+import { LoggerService } from '../../logger/logger.service';
 
 describe('MaintenanceRequestService', () => {
     let service: MaintenanceRequestService;
@@ -27,6 +28,11 @@ describe('MaintenanceRequestService', () => {
         analyze: jest.fn(),
     };
 
+    const mockLoggerService = {
+        info: jest.fn(),
+        error: jest.fn()
+    };
+
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
@@ -43,6 +49,10 @@ describe('MaintenanceRequestService', () => {
                     provide: AnalysisApiService,
                     useValue: mockAnalysisService,
                 },
+                {
+                    provide: LoggerService,
+                    useValue: mockLoggerService
+                }
             ],
         }).compile();
 
@@ -158,4 +168,4 @@ describe('MaintenanceRequestService', () => {
                 .toThrow(error);
         });
     });
-}); 
+});

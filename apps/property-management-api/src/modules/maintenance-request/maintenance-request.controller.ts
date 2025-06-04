@@ -21,7 +21,6 @@ export class MaintenanceRequestController {
         @Query('priority', new PriorityValidationPipe()) priority: PriorityLevel
     ): Promise<GetMaintenanceRequestsResponse> {
         const requests = await this.maintenanceService.getRequestsByPriority(priority);
-        console.log('requests', requests);
 
         return { requests };
     }

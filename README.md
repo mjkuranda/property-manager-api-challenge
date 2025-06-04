@@ -27,17 +27,22 @@ The system consists of two main microservices:
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- DynamoDB
+- Docker (with DynamoDB image) or just DynamoDB
 - npm
 
 ### Installation
 
 1. Install dependencies:
+   - root directory
+   - apps/property-manager-api
+   - apps/analysis-api
+   
+   Using:
    ```bash
    npm install
    ```
 
-2. Create a `.env` file in `apps/property-management-api` with the following content:
+2. Create a `.env` file in root directory with the following content:
    ```
    PORT=4000
    ANALYSIS_API_URL=http://localhost:4001
@@ -52,7 +57,7 @@ The system consists of two main microservices:
    MAINTENANCE_MEDIUM_PRIORITY_THRESHOLD=0.4
    ```
 
-3. Start DynamoDB:
+3. Start DynamoDB, if you run locally (e.g. using Docker):
    ```bash
    sudo docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb
    ```
@@ -62,7 +67,7 @@ The system consists of two main microservices:
    # To build script file
    npm run build:pm-api
    
-   # To invoke script to create tables
+   # To execute script of setting the tables
    npm run db:setup
    ```
 
@@ -96,9 +101,9 @@ Request:
 Response:
 ```json
 {
-    "keywords": ["burst", "water", "emergency"],
-    "urgencyIndicators": 3,
-    "priorityScore": 0.95
+    "keywords": ["burst", "emergency"],
+    "urgencyIndicators": 2,
+    "priorityScore": 0.8
 }
 ```
 
@@ -127,7 +132,7 @@ Response:
             "water"
         ],
         "urgencyIndicators": 2,
-        "priorityScore": 1
+        "priorityScore": 0.8
     }
 }
 ```
@@ -153,7 +158,7 @@ Response:
                      "water"
                   ],
                   "urgencyIndicators": 2,
-                  "priorityScore": 1
+                  "priorityScore": 0.8
                },
                "tenantId": "81fca361-66a3-4e1b-95f1-79b3a834647d",
                "id": "7edf19fb-a4ff-44e3-8518-2b4506736de8",
@@ -171,7 +176,7 @@ Response:
                      "water"
                   ],
                   "urgencyIndicators": 2,
-                  "priorityScore": 1
+                  "priorityScore": 0.8
                },
                "tenantId": "81fca361-66a3-4e1b-95f1-79b3a834647d",
                "id": "a65a3cfa-ca0b-4907-9823-dfbd9210492a",
@@ -218,24 +223,23 @@ The system uses the following classification criteria:
 ```
 
 ### Running Tests
+Regarding Analysis API is mocked, unit and E2E tests were written only for Property Manager API.
+To run them, go to `apps/property-manager-api` and use script:
 ```bash
-# Run all tests
+# Run unit tests
 npm run test
 
-# Run tests for specific app
-npm run test analysis-api
-npm run test property-management-api
+# Run E2E tests
+npm run test:e2e
 ```
 
 ## Design Decisions
-
 1. **Microservice Architecture**: Separated analysis logic from main API to allow for future scaling and potential replacement with real AI service.
-
 2. **DynamoDB**: Chosen in terms of wide-usage in the company.
-
 3. **NestJS**: Provides robust architecture patterns and excellent TypeScript support.
-
-4. **Separate package.json**: Each apllication has a separate `package.json` to manage scripts, version and dependencies. Common dependencies are located in root directory.
+4. **Separate package.json**: Each application has a separate `package.json` to manage scripts, version and dependencies. Common dependencies are located in root directory.
+5. **Simple calculating priority score**: Focuses on finding words. "Urgent" words has a bigger weight than other ones. It can be replaced with another system: each word has a defined weight, which has an impact on the final score. The current way of calculating is simple and demonstrates mocked system.
+6. **Three-tier API architecture**: Good to separate responsibility and make testing easier.
 
 ## Future Enhancements
 

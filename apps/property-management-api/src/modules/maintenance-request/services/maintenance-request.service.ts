@@ -51,7 +51,7 @@ export class MaintenanceRequestService {
 
         this.loggerService.info(
             'MaintenanceRequestService/getRequestsByPriority',
-            `Received ${requests.length} ${requestString} for ${priority} priority.`
+            `Received ${requests.length} ${requestString} with ${priority} priority.`
         );
 
         return requests;

@@ -19,62 +19,32 @@ async function createTables() {
         {
             TableName: DYNAMODB_TABLES.MAINTENANCE_REQUESTS,
             KeySchema: [
-                { AttributeName: 'id', KeyType: 'HASH' },
-                { AttributeName: 'createdAt', KeyType: 'RANGE' }
+                { AttributeName: 'id', KeyType: 'HASH' }
             ],
             AttributeDefinitions: [
                 { AttributeName: 'id', AttributeType: 'S' },
-                { AttributeName: 'priority', AttributeType: 'S' },
-                { AttributeName: 'tenantId', AttributeType: 'S' },
-                { AttributeName: 'createdAt', AttributeType: 'S' },
+                { AttributeName: 'priority', AttributeType: 'S' }
             ],
             GlobalSecondaryIndexes: [
                 {
                     IndexName: 'PriorityIndex',
                     KeySchema: [
-                        { AttributeName: 'priority', KeyType: 'HASH' },
-                        { AttributeName: 'createdAt', KeyType: 'RANGE' },
+                        { AttributeName: 'priority', KeyType: 'HASH' }
                     ],
                     Projection: {
-                        ProjectionType: 'ALL',
+                        ProjectionType: 'ALL'
                     },
                     ProvisionedThroughput: {
                         ReadCapacityUnits: 5,
-                        WriteCapacityUnits: 5,
-                    },
-                },
-                {
-                    IndexName: 'TenantIndex',
-                    KeySchema: [
-                        { AttributeName: 'tenantId', KeyType: 'HASH' },
-                        { AttributeName: 'createdAt', KeyType: 'RANGE' },
-                    ],
-                    Projection: {
-                        ProjectionType: 'ALL',
-                    },
-                    ProvisionedThroughput: {
-                        ReadCapacityUnits: 5,
-                        WriteCapacityUnits: 5,
-                    },
-                },
-            ],
-            LocalSecondaryIndexes: [
-                {
-                    IndexName: 'CreatedAtIndex',
-                    KeySchema: [
-                        { AttributeName: 'id', KeyType: 'HASH' },
-                        { AttributeName: 'createdAt', KeyType: 'RANGE' },
-                    ],
-                    Projection: {
-                        ProjectionType: 'ALL',
-                    },
-                },
+                        WriteCapacityUnits: 5
+                    }
+                }
             ],
             ProvisionedThroughput: {
                 ReadCapacityUnits: 5,
-                WriteCapacityUnits: 5,
-            },
-        },
+                WriteCapacityUnits: 5
+            }
+        }
     ];
 
     for (const tableDefinition of tables) {

@@ -23,7 +23,7 @@ describe('MaintenanceRequestController', () => {
                 {
                     provide: MaintenanceRequestService,
                     useValue: mockMaintenanceService,
-                },
+                }
             ],
         }).compile();
 
@@ -130,4 +130,4 @@ describe('MaintenanceRequestController', () => {
             ).rejects.toThrow();
         });
     });
-}); 
+});
